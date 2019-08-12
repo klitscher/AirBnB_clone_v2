@@ -1,6 +1,8 @@
 #!/usr/bin/python3
 """This is the console for AirBnB"""
 import cmd
+import shlex
+import json
 from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
@@ -17,8 +19,8 @@ class HBNBCommand(cmd.Cmd):
     """this class is entry point of the command interpreter
     """
     prompt = "(hbnb) "
-    all_classes = {"BaseModel", "User", "State", "City",
-                   "Amenity", "Place", "Review"}
+    all_classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City,
+                   "Amenity": Amenity, "Place": Place, "Review": Review}
 
     def emptyline(self):
         """Ignores empty spaces"""
@@ -36,13 +38,44 @@ class HBNBCommand(cmd.Cmd):
         """Creates a new instance of BaseModel, saves it
         Exceptions:
             SyntaxError: when there is no args given
-            NameError: when there is no object taht has the name
+            NameError: when there is no object that has the name
         """
         try:
             if not line:
                 raise SyntaxError()
-            my_list = line.split(" ")
-            obj = eval("{}()".format(my_list[0]))
+            test = line.split()
+            
+            print(line)
+            parser = shlex.shlex(line, posix=True)
+            parser.whitespace_split = True
+            token = " "
+            tok_list = []
+            tup_list = []
+            to_parse = {}
+            cls = parser.get_token()
+            while token is not None:
+                token = parser.get_token()
+                tok_list.append(token)
+            for tup in tok_list:
+                if tup is not None:
+                    tup_list.append(tup.partition('='))
+            for tuple_item in tup_list:
+                to_parse[tuple_item[0]] = tuple_item[2]
+            for k, v in to_parse.items():
+                if v.isdigit() is True:
+                    for i in v:
+                        if i == '.':
+                            v = float(v)
+                            break
+                    else:
+                        v = int(v)
+                else:
+                    v.replace('_', ' ')
+            for k,v in to_parse.items():
+                print(type(v), v)
+            print(to_parse)
+            obj = eval("{}({})".format(cls, ))
+            print(obj)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
