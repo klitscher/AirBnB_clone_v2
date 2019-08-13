@@ -3,6 +3,8 @@
 import cmd
 import shlex
 import json
+import re
+from ast import literal_eval
 from models import storage
 from datetime import datetime
 from models.base_model import BaseModel
@@ -19,8 +21,9 @@ class HBNBCommand(cmd.Cmd):
     """this class is entry point of the command interpreter
     """
     prompt = "(hbnb) "
-    all_classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City,
-                   "Amenity": Amenity, "Place": Place, "Review": Review}
+    all_classes = {"BaseModel": BaseModel, "User": User, "State": State,
+                   "City": City, "Amenity": Amenity, "Place": Place,
+                   "Review": Review}
 
     def emptyline(self):
         """Ignores empty spaces"""
@@ -43,15 +46,37 @@ class HBNBCommand(cmd.Cmd):
         try:
             if not line:
                 raise SyntaxError()
-            test = line.split()
-            
-            print(line)
+            # my_list = line.split(" ")
+            # if len(my_list) > 1:
+            #     cls = my_list.pop(0)
+            #     obj = eval("{}({})".format(cls, temp3))
+            # else:
+            #     obj = eval("{}()".format(my_list[0]))
+
+            # parser = shlex.shlex(line, posix=True)
+            # parser.whitespace_split = True
+            # token = " "
+            # arg_list = []
+            # tok_list = []
+            # cls = parser.get_token()
+            # while token is not None:
+            #     token = parser.get_token()
+            #     tok_list.append(token)
+            # del tok_list[-1]
+            # print(tok_list)
+            # for arg in tok_list:
+            #     arg_list.append(arg.split('=')[0])
+            # for arg in tok_list:
+            #     arg_list.append(arg.split('=')[1])
+            #     temp = literal_eval(arg_list[0])
+
             parser = shlex.shlex(line, posix=True)
             parser.whitespace_split = True
             token = " "
             tok_list = []
             tup_list = []
             to_parse = {}
+            sanitized_args = {}
             cls = parser.get_token()
             while token is not None:
                 token = parser.get_token()
@@ -62,20 +87,26 @@ class HBNBCommand(cmd.Cmd):
             for tuple_item in tup_list:
                 to_parse[tuple_item[0]] = tuple_item[2]
             for k, v in to_parse.items():
-                if v.isdigit() is True:
-                    for i in v:
-                        if i == '.':
-                            v = float(v)
-                            break
-                    else:
-                        v = int(v)
+
+                # Matches string beginnig with 1 or more alphanum
+                # followed and ended by _id
+                if re.match("^\w+_id$", k):
+                    sanitized_args[k] = v
+
+                # Matches string that could be starting with + or -,
+                # followed by 1 to any amount of numbers
+                # followed by  a '.'
+                # followed by and anding with 1 to any amount of numbers
+                elif re.match("^[-+]?\d+\.\d+$", v):
+                    sanitized_args[k] = float(v)
+                elif v.isdigit() is True:
+                    sanitized_args[k] = int(v)
                 else:
-                    v.replace('_', ' ')
-            for k,v in to_parse.items():
-                print(type(v), v)
-            print(to_parse)
-            obj = eval("{}({})".format(cls, ))
-            print(obj)
+                    if '_' in v:
+                        sanitized_args[k] = v.replace('_', ' ')
+                    else:
+                        sanitized_args[k] = v
+            obj = HBNBCommand.all_classes[cls](**sanitized_args)
             obj.save()
             print("{}".format(obj.id))
         except SyntaxError:
