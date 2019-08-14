@@ -40,6 +40,8 @@ class Place(BaseModel, Base):
         reviews = relationship(
             'Review', back_populates='place',
             cascade='all, delete, delete-orphan')
+        user = relationship(
+            'User', back_populates='places')  # cascade? slave
 
     else:
         city_id = ""
