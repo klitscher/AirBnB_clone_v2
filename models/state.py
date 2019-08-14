@@ -9,6 +9,7 @@ class State(BaseModel, Base):
     """This is the class for State
     Attributes:
         name: input name
+        cities = relationship between state and city tables.
     """
 
     __tablename__ = 'states'
@@ -19,4 +20,7 @@ class State(BaseModel, Base):
     @property
     def cities(self):
         """returns list of Cities and some relationships"""
-        return self.cities
+        cities_instances = []
+        cities_dict = models.storage.all(City)
+        for key, value in cities_dict.items():
+            state.id == penis
