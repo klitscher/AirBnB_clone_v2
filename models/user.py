@@ -18,10 +18,10 @@ class User(BaseModel, Base):
     if os.getenv('HBNB_TYPE_STORAGE') == 'db':
         email = Column(String(128), nullable=False)
         password = Column(String(128), nullable=False)
-        first_name = Column(String(128), nullable=False)
-        last_name = Column(String(128), nullable=False)
+        first_name = Column(String(128), nullable=True)
+        last_name = Column(String(128), nullable=True)
         places = relationship(
-            'Places', back_populates='user',
+            'Place', back_populates='user',
             cascade='all, delete, delete-orphan')
         reviews = relationship(
             'Review', back_populates='user',
