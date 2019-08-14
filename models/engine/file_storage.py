@@ -29,9 +29,10 @@ class FileStorage:
             return self.__objects
         else:
             new_dict = {}
-            if len(self.__objects) is not None:
+            if len(self.__objects) > 0:
                 for key, value in self.__objects.items():
-                    if cls == type(value):
+                    # Breaks in console due to cls being a string
+                    if cls is type(value):
                         new_dict[key] = value
             return new_dict
 
