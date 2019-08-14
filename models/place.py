@@ -56,12 +56,12 @@ class Place(BaseModel, Base):
         longitude = 0.0
         amenity_ids = []
 
-    @property
-    def reviews(self):
-        """Review getter - return list of filtered reviews."""
-        reviews_instances = []
-        reviews_dict = models.storage.all('Review')
-        for key, value in reviews_dict.items():
-            if self.id == value.state_id:
-                reviews_instances.append(value)
-                return reviews_instances
+        @property
+        def reviews(self):
+            """Review getter - return list of filtered reviews."""
+            reviews_instances = []
+            reviews_dict = models.storage.all('Review')
+            for key, value in reviews_dict.items():
+                if self.id == value.state_id:
+                    reviews_instances.append(value)
+            return reviews_instances
