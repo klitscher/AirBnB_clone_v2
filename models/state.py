@@ -23,4 +23,4 @@ class State(BaseModel, Base):
         cities_instances = []
         cities_dict = models.storage.all(City)
         for key, value in cities_dict.items():
-            state.id == penis
+            state.id == state_id
