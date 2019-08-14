@@ -20,7 +20,9 @@ class Review(BaseModel):
         place_id = Column(String(60), ForeignKey('places.id'), nullable=False)
         user_id = Column(String(60), ForeignKey('users.id'), nullable=False)
         user = relationship(
-            'User', back_populates='reviews') # cascade?
+            'User', back_populates='reviews')  # cascade? slave
+        place = relationship(
+            'Place', back_populates='reviews')  # cascade? slave
 
     else:
         text = ""

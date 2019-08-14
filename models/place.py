@@ -3,6 +3,7 @@
 from models.base_model import BaseModel, Base, Column, String
 from models.base_model import Integer, ForeignKey
 from sqlalchemy import Float
+from sqlalchemy.orm import relationship
 import os
 
 
@@ -36,6 +37,10 @@ class Place(BaseModel, Base):
         longitude = Column(Float, nullable=True)
         amenity_ids = []
 
+        reviews = relationship(
+            'Review', back_populates='place',
+            cascade='all, delete, delete-orphan')
+
     else:
         city_id = ""
         user_id = ""
@@ -48,3 +53,13 @@ class Place(BaseModel, Base):
         latitude = 0.0
         longitude = 0.0
         amenity_ids = []
+
+    @property
+    def reviews(self):
+        """Review getter - return list of filtered reviews."""
+        reviews_instances = []
+        reviews_dict = models.storage.all('Review')
+        for key, value in reviews_dict.items():
+            if self.id == value.state_id:
+                reviews_instances.append(value)
+                return reviews_instances
