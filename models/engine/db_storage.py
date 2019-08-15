@@ -25,7 +25,7 @@ class DBStorage:
     __session = None
 
     def __init__(self):
-        """Instatiate the engine"""
+        """Instatiate the engine and drop if test database"""
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
             os.environ['HBNB_MYSQL_USER'],
             os.environ['HBNB_MYSQL_PWD'],
