@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This is the file storage class for AirBnB"""
 import json
+import sys
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -31,9 +32,12 @@ class FileStorage:
             new_dict = {}
             if len(self.__objects) > 0:
                 for key, value in self.__objects.items():
-                    # Breaks in console due to cls being a string
-                    if cls is type(value):
-                        new_dict[key] = value
+                    if type(cls) is str:
+                        if cls == key.split('.')[0]:
+                            new_dict[key] = value
+                    else:
+                        if cls is type(value):
+                            new_dict[key] = value
             return new_dict
 
     def new(self, obj):

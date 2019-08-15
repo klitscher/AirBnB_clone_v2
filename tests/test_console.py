@@ -84,10 +84,28 @@ class TestConsole(unittest.TestCase):
                 "** class doesn't exist **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create User")
+        # Need to make code differentiate between interactive console for this to work
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create Place name=")
+        # Need to make code differentiate between interactive console for this to work
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all Place")
+            self.assertEqual(
+                "[[Place]", f.getvalue()[:8])
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("create City name=Hamden \
+            number_rooms=4 latitude=37.773972")
+        with patch('sys.stdout', new=StringIO()) as f:
+            self.consol.onecmd("all City")
+            print(f.getvalue())
+            self.assertTrue("'latitude': 37.773972" in f.getvalue() and
+                            "'number_rooms': 4" in f.getvalue() and 
+                            "'name': 'Hamden'" in f.getvalue())
+                            
 
     def test_show(self):
         """Test show command inpout"""
@@ -134,7 +152,7 @@ class TestConsole(unittest.TestCase):
             self.assertEqual("** class doesn't exist **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all State")
-            self.assertEqual("[]\n", f.getvalue())
+            self.assertEqual("[]\n", f.getvalue()[:7])
 
     def test_update(self):
         """Test update command inpout"""
