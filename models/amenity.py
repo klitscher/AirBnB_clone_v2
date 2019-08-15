@@ -2,9 +2,9 @@
 """This is the amenity class"""
 import os
 from models.base_model import BaseModel, Base
-from sqlalchmey import Column, String, Integer
+from sqlalchemy import Column, String, Integer
 from sqlalchemy.orm import relationship
-from models.places import association_table
+from models.place import place_amenity
 
 
 class Amenity(BaseModel, Base):

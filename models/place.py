@@ -13,6 +13,7 @@ place_amenity = Table('place_amenity', Base.metadata,
                       Column('amenity_id', String(60),
                              ForeignKey('amenities.id'), nullable=False))
 
+
 class Place(BaseModel, Base):
     """This is the class for Place
     Attributes:
@@ -71,7 +72,7 @@ class Place(BaseModel, Base):
             reviews_instances = []
             reviews_dict = models.storage.all('Review')
             for key, value in reviews_dict.items():
-                if self.id == value.state_id:
+                if self.id == value.place_id:
                     reviews_instances.append(value)
             return reviews_instances
 
@@ -81,10 +82,7 @@ class Place(BaseModel, Base):
             return self.amenity_ids
 
         @amenities.setter
-        def amenities(self, obj)
-        """Setter for amenity list"""
-        # Nate could be super wrong about isinstance
-        if isinstance(obj, Amenity):
-            self.ammenity_ids.append(obj.id)
-
-           
+        def amenities(self, obj):
+            """Setter for amenity list"""
+            if isinstance(obj, Amenity):
+                self.ammenity_ids.append(obj.id)
