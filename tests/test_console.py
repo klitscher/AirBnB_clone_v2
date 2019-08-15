@@ -84,14 +84,12 @@ class TestConsole(unittest.TestCase):
                 "** class doesn't exist **\n", f.getvalue())
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create User")
-        # Need to make code differentiate between interactive console for this to work
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all User")
             self.assertEqual(
                 "[[User]", f.getvalue()[:7])
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("create Place name=")
-        # Need to make code differentiate between interactive console for this to work
         with patch('sys.stdout', new=StringIO()) as f:
             self.consol.onecmd("all Place")
             self.assertEqual(
@@ -103,9 +101,8 @@ class TestConsole(unittest.TestCase):
             self.consol.onecmd("all City")
             print(f.getvalue())
             self.assertTrue("'latitude': 37.773972" in f.getvalue() and
-                            "'number_rooms': 4" in f.getvalue() and 
+                            "'number_rooms': 4" in f.getvalue() and
                             "'name': 'Hamden'" in f.getvalue())
-                            
 
     def test_show(self):
         """Test show command inpout"""
