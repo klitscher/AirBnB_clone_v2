@@ -32,7 +32,7 @@ class DBStorage:
             os.environ['HBNB_MYSQL_HOST'],
             os.environ['HBNB_MYSQL_DB']), pool_pre_ping=True)
         if os.getenv('HBNB_ENV') == 'test':
-            Base.metatdata.drop_all(self.__engine)
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Query all objects for curent session based on class name"""
@@ -42,12 +42,7 @@ class DBStorage:
             objects = self.__session.query(cls).all()
         else:
             objects = self.__session.query(
-                State,
-                City)  # ,
-            # User,
-            # Amenity,
-            # Place,
-            # Review)
+                State, City, User, Amenity, Place, Review)
         for obj in objects:
             key = obj.__class__.__name__ + '.' + obj.id
             value = obj
