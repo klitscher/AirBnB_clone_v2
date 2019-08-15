@@ -3,6 +3,7 @@
 import unittest
 import os
 import pep8
+import MySQLdb
 from models.base_model import BaseModel
 from models.user import User
 from models.state import State
@@ -15,6 +16,11 @@ from models.engine.db_storage import DBStorage
 
 class TestDBStorage(unittest.TestCase):
     """Tests for SQLAlchemy storage method."""
+
+
+        db = MySQLdb.connect(host="localhost", user=hbnb_test,
+                             passwd=hbnb_test_pwd, db=hbnb_test_db)
+        cur = db.cursor()
 
     @classmethod
     def setUpClass(cls):
@@ -30,3 +36,6 @@ class TestDBStorage(unittest.TestCase):
         style = pep8.StyleGuide(quiet=True)
         p = style.check_files(['models/engine/db_storage.py'])
         self.assertEqual(p.total_errors, 0, "fix pep8")
+
+    def test_db_basic(self):
+        pass
