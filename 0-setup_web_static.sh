@@ -11,5 +11,5 @@ mkdir -p /data/web_static/releases/test/
 echo "This is a test" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
-sed -i 's|server_name localhost;|server_name localhost;\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n|' /etc/nginx/sites-available/default
+sed -i 's|#error_page 404 /404.html;|#error_page 404 /404.html;\n\tlocation /hbnb_static {\n\t\talias /data/web_static/current/;\n\t}\n|' /etc/nginx/sites-available/default
 service nginx restart
