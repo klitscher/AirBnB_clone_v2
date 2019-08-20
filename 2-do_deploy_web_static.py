@@ -4,9 +4,9 @@
 import fabric
 import os
 
-# env.hosts = ['35.237.201.94', '35.231.178.196']
-# env.user = 'ubuntu'
-# env.key_file = '~/.ssh/holberton'
+# fabric.api.env.hosts = ['35.237.201.94', '35.231.178.196']
+# fabric.api.env.user = 'ubuntu'
+# fabric.api.env.key_file = '~/.ssh/holberton'
 # fabric.api.env.hosts = ['172.31.54.208:45962']
 # fabric.api.env.user = 'root'
 # fabric.api.env.password = '638f151ec8fd4a571edf'
