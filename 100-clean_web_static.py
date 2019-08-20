@@ -67,7 +67,8 @@ def do_clean(number=0):
         for record in li2:
             try:
                 fabric.api.local('rm -r ./version/{}'.format(record))
-                fabric.api.run('rm -r /data/web_static/releases/{}'.format(record))
+                fabric.api.run(
+                    'rm -r /data/web_static/releases/{}'.format(record))
             except:
                 pass
     else:
@@ -77,6 +78,7 @@ def do_clean(number=0):
         for record in delete:
             try:
                 fabric.api.local('rm -r ./version/{}'.format(record))
-                fabric.api.run('rm -r /data/web_static/releases/{}'.format(record))
+                fabric.api.run(
+                    'rm -r /data/web_static/releases/{}'.format(record))
             except:
                 pass
