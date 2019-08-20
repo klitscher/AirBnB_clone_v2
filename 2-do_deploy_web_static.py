@@ -5,8 +5,8 @@ import fabric
 import os
 
 fabric.api.env.hosts = ['35.237.201.94', '35.231.178.196']
-fabric.api.env.user = 'ubuntu'
-fabric.api.env.key_file = '~/.ssh/holberton'
+# fabric.api.env.user = 'ubuntu'
+# fabric.api.env.key_file = '~/.ssh/holberton'
 # fabric.api.env.hosts = ['172.31.54.208:45962']
 # fabric.api.env.user = 'root'
 # fabric.api.env.password = '638f151ec8fd4a571edf'
@@ -27,17 +27,15 @@ def do_deploy(archive_path):
     if not os.path.isfile(archive_path):
         return False
     fabric.api.put('versions/web_static_{}.tgz'.format(date), '/tmp/')
-    fabric.api.run('mkdir -p /data/web_static/'
-                   'releases/web_static_{}/'.format(date))
     fabric.api.run('tar -xzf /tmp/web_static_{}.tgz -C /data/web_static/'
-                   'releases/web_static_{}/'.format(date, date))
+                   'releases/'.format(date))
+    fabric.api.run('mv /data/web_static/releases/web_static /data/web_'
+                   'static/releases/web_static_{}'.format(date))
     fabric.api.run('rm /tmp/web_static_{}.tgz'.format(date))
-    fabric.api.run('mv /data/web_static/releases/web_static_{}/'
-                   'web_static/* /data/web_static/releases/'
-                   'web_static_{}/'.format(date, date))
-    fabric.api.run('rm -rf /data/web_static/releases/'
-                   'web_static_{}/web_static'.format(date))
-    result = fabric.api.run('rm -rf /data/web_static/current')
+    fabric.api.run("unlink /data/web_static/current")
+    # fabric.api.run('rm -rf /data/web_static/releases/'
+    #               'web_static_{}/web_static'.format(date))
+    # fabric.api.run('rm -rf /data/web_static/current')
     fabric.api.run('ln -s /data/web_static/releases/web_'
                    'static_{}/ /data/web_static/current'.format(date))
     return True
