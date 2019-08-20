@@ -65,20 +65,14 @@ def do_clean(number=0):
     if int(number) <= 1:
         keep = li2.pop(0)
         for record in li2:
-            try:
-                fabric.api.local('rm -r ./version/{}'.format(record))
-                fabric.api.run(
-                    'rm -r /data/web_static/releases/{}'.format(record))
-            except:
-                pass
+            fabric.api.local('rm -r ./version/{}'.format(record))
+            fabric.api.run(
+                'rm -r /data/web_static/releases/{}'.format(record))
     else:
         delete = []
         for i in range(int(number), len(li2)):
             delete.append(li2[i])
         for record in delete:
-            try:
-                fabric.api.local('rm -r ./version/{}'.format(record))
-                fabric.api.run(
-                    'rm -r /data/web_static/releases/{}'.format(record))
-            except:
-                pass
+            fabric.api.local('rm -r ./version/{}'.format(record))
+            fabric.api.run(
+                'rm -r /data/web_static/releases/{}'.format(record))
