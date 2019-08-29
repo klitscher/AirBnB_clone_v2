@@ -80,3 +80,7 @@ class FileStorage:
                 dict_key = key
         if dict_key is not "":
             del self.__objects[dict_key]
+
+    def close(self):
+        """Deserialize a JSON file to objects"""
+        self.reload()
