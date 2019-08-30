@@ -5,7 +5,7 @@
     </HEAD>
     <BODY>
         <H1>States</H1>
-        <ul>
+        <UL>
 	{% for key, value in state.items()|sort(attribute='1.name') %}
              <LI>{{ value.id }}: <B>{{ value.name }}</B>
 	       <UL>
@@ -15,6 +15,6 @@
 	       </UL>
 	     </LI>
 	{% endfor %}  
-        </ul>
+        </UL>
     </BODY>
 </HTML>
