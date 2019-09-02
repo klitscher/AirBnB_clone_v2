@@ -16,7 +16,7 @@ def hello_HBNB():
 @app.route('/hbnb', strict_slashes=False)
 def HBNB():
     """Function to print something"""
-    return "HBNB!"
+    return "HBNB"
 
 
 if __name__ == '__main__':
