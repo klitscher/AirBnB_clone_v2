@@ -1,16 +1,20 @@
 #!/usr/bin/python3
-"""Module to start a Flask web application"""
-
-from flask import Flask
+"""Module for very basic Flask server"""
 
 
-app = Flask(__name__)
+import flask
 
 
-@app.route('/', strict_slashes=False)
-def hello_world():
-    """Function to print something"""
-    return "Hello HBNB!"
+site = flask.Flask(__name__)
+
+
+@site.route('/', strict_slashes=False)
+def index():
+    """Display the site's index"""
+
+    return 'Hello HBNB!'
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    site.run(host='0.0.0.0', port=5000)
+    
