@@ -1,7 +1,7 @@
 # 0x04. AirBnB clone - Web framework
 
 ## Description
-What you should learn from this project:
+What you should learn from completing this project:
 
 * What is a Web Framework
 * How to build a web framework with Flask
